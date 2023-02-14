@@ -157,13 +157,14 @@ MSRailSignal::updateCurrentPhase() {
             DriveWay& driveway = li.getDriveWay(closest.first);
             //std::cout << SIMTIME << " signal=" << getTLLinkID(li.myLink) << " veh=" << closest.first->getID() << " dw:\n";
             //driveway.writeBlocks(*OutputDevice_COUT::getDevice());
-            const bool mustWait = !constraintsAllow(closest.first);
+            // const bool mustWait = !constraintsAllow(closest.first);
+            const bool mustWait = false;
             MSEdgeVector occupied;
             if (mustWait || !driveway.reserve(closest, occupied)) {
                 state[li.myLink->getTLIndex()] = 'r';
-                if (occupied.size() > 0) {
-                    li.reroute(const_cast<SUMOVehicle*>(closest.first), occupied);
-                }
+                // if (occupied.size() > 0) {
+                //     li.reroute(const_cast<SUMOVehicle*>(closest.first), occupied);
+                // }
 #ifdef DEBUG_SIGNALSTATE
                 if (gDebugFlag4) {
                     std::cout << SIMTIME << " rsl=" << li.getID() << " veh=" << closest.first->getID() << " notReserved\n";
@@ -171,10 +172,10 @@ MSRailSignal::updateCurrentPhase() {
 #endif
             } else {
                 state[li.myLink->getTLIndex()] = 'G';
-                if (driveway.myFlank.size() > 0 && myCurrentPhase.getState()[li.myLink->getTLIndex()] != 'G') {
-                    // schedule recheck
-                    mySwitchedGreenFlanks.push_back(std::make_pair(li.myLink, driveway.myNumericalID));
-                }
+                // if (driveway.myFlank.size() > 0 && myCurrentPhase.getState()[li.myLink->getTLIndex()] != 'G') {
+                //     // schedule recheck
+                //     mySwitchedGreenFlanks.push_back(std::make_pair(li.myLink, driveway.myNumericalID));
+                // }
 #ifdef DEBUG_SIGNALSTATE
                 if (gDebugFlag4) {
                     std::cout << SIMTIME << " rsl=" << li.getID() << " veh=" << closest.first->getID() << " reserved\n";
