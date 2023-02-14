@@ -376,8 +376,8 @@ MSRailSignal::getClosest(MSLink* link) {
     assert(link->getApproaching().size() > 0);
 
     auto comparator = [](
-        const MSRailSignal::Approaching &l,
-        const MSRailSignal::Approaching &r
+        MSRailSignal::Approaching &l,
+        MSRailSignal::Approaching &r
     ) {
         double lDist = l.second.dist;
         double rDist = r.second.dist;
