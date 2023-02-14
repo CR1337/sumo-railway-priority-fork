@@ -615,6 +615,23 @@ public:
         return &myEnergyParams;
     }
 
+/// @brief Returns traffic objects priority
+    virtual int getPriority() {
+        if (getID() == "coal") {
+            return 0;
+        }
+        return priority;
+    }
+
+    /// @brief Sets traffic objects priority
+    virtual void setPriority(int value) {
+        priority = value;
+    }
+
+protected:
+    /// @brief The traffic objects priority
+    int priority = 100;
+
 private:
     /// @brief the parameter container
     SUMOVTypeParameter myParameter;
