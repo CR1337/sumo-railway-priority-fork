@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2023-02-14 13:49:08 by Eclipse SUMO netedit Version 4b90124ecd
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <!-- VTypes -->
+    <vType id="DEFAULT_VEHTYPE" vClass="rail"/>
+    <vType id="coal" length="200.00" vClass="rail"/>
+    <vType id="passenger" vClass="rail"/>
+    <!-- Vehicles, persons and containers (sorted by depart) -->
+    <trip id="t_0" type="passenger" depart="0.00" from="E14" to="E18"/>
+    <trip id="t_1" type="coal" depart="0.00" color="128,0,0" from="E19" to="E18"/>
+</routes>
