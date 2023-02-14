@@ -380,7 +380,7 @@ MSRailSignal::getClosest(MSLink* link) {
             minDist = apprIt->second.dist;
             closestIt = apprIt;
         }
-        std::cout << apprIt.first->getVehicleType().getID() << std::endl;
+        std::cout << apprIt->first->getVehicleType().getID() << std::endl;
     }
     // maybe a parallel link has a closer vehicle
     /*
