@@ -616,7 +616,7 @@ public:
     }
 
 /// @brief Returns traffic objects priority
-    virtual int getPriority() {
+    virtual int getPriority() const {
         if (getID() == "coal") {
             return 0;
         }

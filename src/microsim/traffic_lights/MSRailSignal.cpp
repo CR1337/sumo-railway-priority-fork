@@ -376,13 +376,13 @@ MSRailSignal::getClosest(MSLink* link) {
     assert(link->getApproaching().size() > 0);
 
     auto comparator = [](
-        MSRailSignal::Approaching &l,
-        MSRailSignal::Approaching &r
+        MSRailSignal::Approaching *l,
+        MSRailSignal::Approaching *r
     ) {
-        double lDist = l.second.dist;
-        double rDist = r.second.dist;
-        int lPrio = l.first->getVehicleType().getPriority();
-        int rPrio = r.first->getVehicleType().getPriority();
+        double lDist = l->second.dist;
+        double rDist = r->second.dist;
+        int lPrio = l->first->getVehicleType().getPriority();
+        int rPrio = r->first->getVehicleType().getPriority();
         if (lPrio == rPrio) {
             return lDist > rDist;
         }
@@ -390,17 +390,17 @@ MSRailSignal::getClosest(MSLink* link) {
     };
 
     std::priority_queue<
-        Approaching,
-        std::vector<Approaching>,
+        Approaching*,
+        std::vector<Approaching*>,
         decltype(comparator)
     > pq(comparator);
 
     MSLink::ApproachInfos approaching = link->getApproaching();
     for (auto it = approaching.begin(); it != approaching.end(); ++it) {
-        pq.push(*it);
+        pq.push(&(*it));
     }
 
-    return pq.top();
+    return *(pq.top());
 }
 
 
