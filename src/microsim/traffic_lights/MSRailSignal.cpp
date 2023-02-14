@@ -25,6 +25,7 @@
 #include <utility>
 #include <vector>
 #include <bitset>
+#include <queue>
 #ifdef HAVE_FOX
 #include <utils/foxtools/MFXWorkerThread.h>
 #endif
@@ -373,29 +374,33 @@ MSRailSignal::appendMapIndex(LaneVisitedMap& map, const MSLane* lane) {
 MSRailSignal::Approaching
 MSRailSignal::getClosest(MSLink* link) {
     assert(link->getApproaching().size() > 0);
-    double minDist = std::numeric_limits<double>::max();
-    auto closestIt = link->getApproaching().begin();
-    for (auto apprIt = link->getApproaching().begin(); apprIt != link->getApproaching().end(); apprIt++) {
-        if (apprIt->second.dist < minDist) {
-            minDist = apprIt->second.dist;
-            closestIt = apprIt;
+
+    auto comparator = [](
+        const MSRailSignal::Approaching &l,
+        const MSRailSignal::Approaching &r
+    ) {
+        double lDist = l.second.dist;
+        double rDist = r.second.dist;
+        int lPrio = l.first->getVehicleType().getPriority();
+        int rPrio = r.first->getVehicleType().getPriority();
+        if (lPrio == rPrio) {
+            return lDist > rDist;
         }
-        std::cout << apprIt->first->getVehicleType().getID() << std::endl;
+        return lPrio > rPrio;
+    };
+
+    std::priority_queue<
+        Approaching,
+        std::vector<Approaching>,
+        decltype(comparator)
+    > pq(comparator);
+
+    MSLink::ApproachInfos approaching = link->getApproaching();
+    for (auto it = approaching.begin(); it != approaching.end(); ++it) {
+        pq.push(*it);
     }
-    // maybe a parallel link has a closer vehicle
-    /*
-    for (MSLink* link2 : link->getLaneBefore()->getLinkCont()) {
-        if (link2 != link) {
-            for (auto apprIt2 = link2->getApproaching().begin(); apprIt2 != link2->getApproaching().end(); apprIt2++) {
-                if (apprIt2->second.dist < minDist) {
-                    minDist = apprIt2->second.dist;
-                    closestIt = apprIt2;
-                }
-            }
-        }
-    }
-    */
-    return *closestIt;
+
+    return pq.top();
 }
 
 
