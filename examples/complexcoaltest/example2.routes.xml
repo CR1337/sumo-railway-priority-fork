@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2023-02-16 11:22:33 by Eclipse SUMO netedit Version a72a14ed04
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <!-- VTypes -->
+    <vType id="coal" priority="1" length="10.00" vClass="rail" color="30,30,30" accel="2.5" decel="1.3"/>
+    <vType id="ice" length="60.00" vClass="rail_electric" color="192,192,192" accel="5" decel="1.3"/>
+    <vType id="regio" length="5.00" vClass="rail" color="193,18,28" accel="2.5" decel="1.3"/>
+    <!-- Vehicles, persons and containers (sorted by depart) -->
+    <flow id="f_0" type="regio" begin="0.00" color="magenta" from="8f1ba-1-re" to="-E0" end="3600.00" period="150.00"/>
+    <flow id="f_1" type="coal" begin="0.00" from="b2e35-1-re" to="-E0" end="3600.00" vehsPerHour="34.00"/>
+    <flow id="f_2" type="regio" begin="0.00" color="cyan" from="E0" to="9c244-1" end="3600.00" period="200.00"/>
+</routes>
