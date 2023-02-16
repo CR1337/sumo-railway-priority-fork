@@ -950,7 +950,7 @@ MSRailSignal::DriveWay::mustYield(const Approaching& veh, const Approaching& foe
                 return foe.second.arrivalTime < veh.second.arrivalTime;
             }
         } else {
-            return foe.first->getVehicleType().getLength() > veh.first->getVehicleType().getLength();
+            return foe.first->getVehicleType().getPriority() > veh.first->getVehicleType().getPriority();
         }
     } else {
         return foe.second.arrivalSpeedBraking > veh.second.arrivalSpeedBraking;
