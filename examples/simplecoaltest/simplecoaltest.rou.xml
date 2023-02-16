@@ -5,8 +5,8 @@
 
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
     <!-- VTypes -->
-    <vType id="coal" length="200.00" vClass="rail"/>
-    <vType id="passenger" vClass="rail"/>
+    <vType id="coal" priority="1" length="200.00" vClass="rail"/>
+    <vType id="passenger" priority="100" vClass="rail"/>
     <!-- Vehicles, persons and containers (sorted by depart) -->
     <flow id="t_0" type="passenger" begin="0.00" from="E14" to="E18" end="10000.00" period="200.00"/>
     <flow id="t_1" type="coal" begin="0.00" color="128,0,0" from="E19" to="E18" end="10000.00" probability="0.01"/>
