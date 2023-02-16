@@ -75,6 +75,7 @@ const long long int VTYPEPARS_MASS_SET = (long long int)1 << 31;
 const long long int VTYPEPARS_TTT_SET = (long long int)1 << 32;
 const long long int VTYPEPARS_TTT_BIDI_SET = (long long int)1 << 33;
 const long long int VTYPEPARS_SEATING_WIDTH_SET = (long long int)1 << 34;
+const long long int VTYPEPARS_PRIORITY_SET = (long long int)1 << 35;
 
 
 const int VTYPEPARS_DEFAULT_EMERGENCYDECEL_DEFAULT = -1;
@@ -122,6 +123,9 @@ public:
     struct VClassDefaultValues {
         /// @brief parameter constructor
         VClassDefaultValues(SUMOVehicleClass vClass);
+
+        /// @brief The priority level
+        int priority;
 
         /// @brief The physical vehicle length
         double length;
@@ -255,6 +259,9 @@ public:
 
     /// @brief The vehicle type's id
     std::string id;
+
+    /// @brief The priority level
+    int priority;
 
     /// @brief The physical vehicle length
     double length;

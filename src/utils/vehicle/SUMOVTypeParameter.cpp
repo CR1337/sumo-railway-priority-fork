@@ -39,6 +39,7 @@
 // ===========================================================================
 
 SUMOVTypeParameter::VClassDefaultValues::VClassDefaultValues(SUMOVehicleClass vclass) :
+    priority(100),
     length(getDefaultVehicleLength(vclass)),
     minGap(2.5),
     maxSpeed(200. / 3.6),
@@ -395,6 +396,9 @@ SUMOVTypeParameter::write(OutputDevice& dev) const {
     // write ID (always needed)
     dev.writeAttr(SUMO_ATTR_ID, id);
     // write parameters depending if is set
+    if (wasSet(VTYPEPARS_PRIORITY_SET)) {
+        dev.writeAttr(SUMO_ATTR_PRIORITY, priority);
+    }
     if (wasSet(VTYPEPARS_LENGTH_SET)) {
         dev.writeAttr(SUMO_ATTR_LENGTH, length);
     }

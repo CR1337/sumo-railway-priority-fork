@@ -389,6 +389,12 @@ public:
      */
     void setTau(double tau);
 
+    /** @brief Set a new value for this type's priority
+     *
+     * @param[in] priority The new priority of this type
+     */
+    void setPriority(const int& priority);
+
     /** @brief Set a new value for this type's length
      *
      * If the given value<0 then the one from the original type will
@@ -617,9 +623,6 @@ public:
 
 /// @brief Returns traffic objects priority
     virtual int getPriority() const {
-        if (getID() == "coal") {
-            return 0;
-        }
         return priority;
     }
 
@@ -630,7 +633,7 @@ public:
 
 protected:
     /// @brief The traffic objects priority
-    int priority = 100;
+    int priority;
 
 private:
     /// @brief the parameter container

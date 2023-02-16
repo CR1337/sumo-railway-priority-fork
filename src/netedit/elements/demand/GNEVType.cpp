@@ -315,6 +315,12 @@ GNEVType::getAttribute(SumoXMLAttr key) const {
         case SUMO_ATTR_CF_IDM_STEPPING:
             return getCFParamString(key, "");
         // Mutable values
+        case SUMO_ATTR_PRIORITY:
+            if (wasSet(VTYPEPARS_PRIORITY_SET)) {
+                return toString(priority);
+            } else {
+                return toString(defaultValues.priority);
+            }
         case SUMO_ATTR_LENGTH:
             if (wasSet(VTYPEPARS_LENGTH_SET)) {
                 return toString(length);
@@ -505,6 +511,12 @@ GNEVType::getAttributeDouble(SumoXMLAttr key) const {
     // obtain default values depending of vehicle class
     VClassDefaultValues defaultValues(vehicleClass);
     switch (key) {
+        case SUMO_ATTR_PRIORITY:
+            if (wasSet(VTYPEPARS_PRIORITY_SET)) {
+                return priority;
+            } else {
+                return defaultValues.priority;
+            }
         case SUMO_ATTR_LENGTH:
             if (wasSet(VTYPEPARS_LENGTH_SET)) {
                 return length;
@@ -642,6 +654,7 @@ GNEVType::setAttribute(SumoXMLAttr key, const std::string& value, GNEUndoList* u
         case SUMO_ATTR_LCA_OVERTAKE_DELTASPEED_FACTOR:
         /* case SUMO_ATTR_LCA_EXPERIMENTAL1: */
         //
+        case SUMO_ATTR_PRIORITY:
         case SUMO_ATTR_LENGTH:
         case SUMO_ATTR_MINGAP:
         case SUMO_ATTR_MAXSPEED:
@@ -835,6 +848,8 @@ GNEVType::isValid(SumoXMLAttr key, const std::string& value) {
             return true;
         */
         //
+        case SUMO_ATTR_PRIORITY:
+            return canParse<int>(value);
         case SUMO_ATTR_LENGTH:
             return canParse<double>(value) && (parse<double>(value) > 0);
         case SUMO_ATTR_MINGAP:
@@ -928,6 +943,8 @@ GNEVType::isAttributeEnabled(SumoXMLAttr key) const {
             } else {
                 return true;
             }
+        case SUMO_ATTR_PRIORITY:
+            return wasSet(VTYPEPARS_PRIORITY_SET);
         case SUMO_ATTR_LENGTH:
             return wasSet(VTYPEPARS_LENGTH_SET);
         case SUMO_ATTR_MINGAP:
@@ -1216,6 +1233,9 @@ GNEVType::overwriteVType(GNEDemandElement* vType, const SUMOVTypeParameter newVT
         vType->setAttribute(SUMO_ATTR_LCA_EXPERIMENTAL1, toString(newVTypeParameter.getLCParam(SUMO_ATTR_LCA_EXPERIMENTAL1, 0)), undoList);
     }
     //
+    if (newVTypeParameter.wasSet(VTYPEPARS_PRIORITY_SET)) {
+        vType->setAttribute(SUMO_ATTR_PRIORITY, toString(newVTypeParameter.priority), undoList);
+    }
     if (newVTypeParameter.wasSet(VTYPEPARS_LENGTH_SET)) {
         vType->setAttribute(SUMO_ATTR_LENGTH, toString(newVTypeParameter.length), undoList);
     }
@@ -1598,6 +1618,18 @@ GNEVType::setAttribute(SumoXMLAttr key, const std::string& value) {
             }
             break;
         //
+        case SUMO_ATTR_PRIORITY:
+            if (!value.empty() && (value != toString(defaultValues.priority))) {
+                priority = parse<int>(value);
+                // mark parameter as set
+                parametersSet |= VTYPEPARS_PRIORITY_SET;
+            } else {
+                // set default value
+                priority = defaultValues.priority;
+                // unset parameter
+                parametersSet &= ~VTYPEPARS_PRIORITY_SET;
+            }
+            break;
         case SUMO_ATTR_LENGTH:
             if (!value.empty() && (value != toString(defaultValues.length))) {
                 length = parse<double>(value);
@@ -1971,6 +2003,9 @@ GNEVType::commitMoveShape(const GNEMoveResult& /*moveResult*/, GNEUndoList* /*un
 
 void
 GNEVType::updateDefaultVClassAttributes(const VClassDefaultValues& defaultValues) {
+    if (!wasSet(VTYPEPARS_PRIORITY_SET)) {
+        priority = defaultValues.priority;
+    }
     if (!wasSet(VTYPEPARS_LENGTH_SET)) {
         length = defaultValues.length;
     }

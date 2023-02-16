@@ -92,6 +92,16 @@ MSVehicleType::computeChosenSpeedDeviation(SumoRNG* rng, const double minDev) co
 
 // ------------ Setter methods
 void
+MSVehicleType::setPriority(const int& priority) {
+    if (myOriginalType != nullptr && priority < 0) {
+        myParameter.priority = myOriginalType->getPriority();
+    } else {
+        myParameter.priority = priority;
+    }
+    myParameter.parametersSet |= VTYPEPARS_PRIORITY_SET;
+}
+
+void
 MSVehicleType::setLength(const double& length) {
     if (myOriginalType != nullptr && length < 0) {
         myParameter.length = myOriginalType->getLength();

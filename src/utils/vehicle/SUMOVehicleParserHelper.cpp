@@ -728,6 +728,16 @@ SUMOVehicleParserHelper::beginVTypeParsing(const SUMOSAXAttributes& attrs, const
         // create vType
         SUMOVTypeParameter* vType = new SUMOVTypeParameter(id, vClass);
         // parse attributes
+        if (attrs.hasAttribute(SUMO_ATTR_PRIORITY)) {
+            bool ok = true;
+            const int priority = attrs.get<int>(SUMO_ATTR_PRIORITY, vType->id.c_str(), ok);
+            if (!ok) {
+                return handleVehicleTypeError(hardFail, vType);
+            } else {
+                vType->priority = priority;
+                vType->parametersSet |= VTYPEPARS_PRIORITY_SET;
+            }
+        }
         if (attrs.hasAttribute(SUMO_ATTR_VCLASS)) {
             vType->parametersSet |= VTYPEPARS_VEHICLECLASS_SET;
         }
